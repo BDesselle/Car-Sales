@@ -1,24 +1,39 @@
 import React from "react";
-// Components
+import { connect } from "react-redux";
+import { buyItem } from "../store/actions";
 import AdditionalFeature from "./AdditionalFeature";
 
-const AdditionalFeatures = props => {
-  return (
-    <React.Fragment>
+class AdditionalFeatures extends React.Component {
+  state = {};
+  render() {
+    return (
       <div className="content">
         <h4>Additional Features</h4>
-        {props.store.length ? (
+        {this.props.store.length ? (
           <ol type="1">
-            {props.store.map(item => (
-              <AdditionalFeature key={item.id} feature={item} />
+            {this.props.store.map(item => (
+              <AdditionalFeature
+                buyItem={this.props.buyItem}
+                key={item.id}
+                feature={item}
+              />
             ))}
           </ol>
         ) : (
           <p>Nice looking car!</p>
         )}
       </div>
-    </React.Fragment>
-  );
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    store: state.store
+  };
 };
 
-export default AdditionalFeatures;
+export default connect(
+  mapStateToProps,
+  { buyItem }
+)(AdditionalFeatures);
